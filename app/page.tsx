@@ -1,7 +1,6 @@
 "use client"
 import { useState } from "react"
 import { MediaDetails } from "@/types/index"
-import Image from "next/image"
 import Canvas from "@/components/canvas"
 import LeftPanel from "@/components/leftPanel"
 

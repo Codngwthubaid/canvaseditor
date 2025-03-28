@@ -1,9 +1,10 @@
 "use client"
 
 import { MediaDetails } from "@/types/index"
-import { useState, useEffect, useRef } from "react"
+import { useEffect, useRef } from "react"
 import Dragging from "@/hooks/useDragable"
 import Resizing from "@/hooks/useResizing"
+import Image from "next/image"
 
 
 interface canvasProps {
@@ -13,9 +14,6 @@ interface canvasProps {
     currentTime: number;
     setCurrentTime: (time: number) => void;
 }
-
-
-
 
 export default function Canvas({
     media,
@@ -79,7 +77,7 @@ export default function Canvas({
                             controls={false}
                         />
                     ) : (
-                        <img
+                        <Image
                             src={media.url}
                             style={{ width: "100%", height: "100%" }}
                             alt="Uploaded media"
