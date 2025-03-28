@@ -2,12 +2,14 @@
 import { useState } from "react"
 import { MediaDetails } from "@/types/index"
 import Image from "next/image"
-import Canvas from "@/components/Canvas"
+import Canvas from "@/components/canvas"
 import LeftPanel from "@/components/leftPanel"
 
 export default function App() {
   const [isSelected, setIsSelected] = useState<MediaDetails | null>(null)
   const [isOpen, setIsOpen] = useState(false)
+  const [currentTime, setCurrentTime] = useState(0)
+  const [isPlaying, setIsPlaying] = useState(false)
 
   const handleMediaSelect = (file: File) => {
     const url = URL.createObjectURL(file)
@@ -31,7 +33,19 @@ export default function App() {
         className="md:hidden p-4"
         onClick={() => setIsOpen(!isOpen)}
       >
-        <Image src="/hamburger.svg" alt="Menu" width={24} height={24} />
+        <svg
+          className="w-6 h-6"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M4 6h16M4 12h16M4 18h16"
+          />
+        </svg>
       </button>
 
       <div
@@ -42,13 +56,36 @@ export default function App() {
           className="md:hidden p-2 bottom-10 relative w-full text-right"
           onClick={() => setIsOpen(false)}
         >
-          <Image src="/cancel.svg" alt="Close" width={24} height={24} />
+          <svg
+            className="w-6 h-6 inline-block"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
         </button>
-        <LeftPanel />
+        <LeftPanel
+          selectedMedia={isSelected}
+          onMediaSelect={handleMediaSelect}
+          onMediaUpdate={setIsSelected}
+          isPlaying={isPlaying}
+          setIsPlaying={setIsPlaying}
+        />
       </div>
 
       <div className="flex-1 md:ml-64 lg:ml-80">
-        <Canvas />
+        <Canvas
+          media={isSelected}
+          onMediaUpdate={setIsSelected}
+          isPlaying={isPlaying}
+          currentTime={currentTime}
+          setCurrentTime={setCurrentTime} />
       </div>
     </div>
   )

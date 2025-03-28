@@ -1,7 +1,8 @@
 "use client"
 import { MediaDetails } from "@/types"
-import React, { useState, useEffect, useRef, useCallback } from "react"
+import React, { useRef, useCallback } from "react"
 export default function Resizing(
+    elementRef: React.RefObject<HTMLDivElement | null>,
     media: MediaDetails | null,
     OnMediaUpdate: (media: MediaDetails | null) => void
 ) {

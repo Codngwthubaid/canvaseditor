@@ -12,6 +12,7 @@ interface LeftPanelProps {
     setIsPlaying: (playing: boolean) => void
 }
 
+
 export default function LeftPanel({
     selectedMedia,
     onMediaSelect,
@@ -33,6 +34,7 @@ export default function LeftPanel({
             setHeight(selectedMedia.height)
             setStartTime(selectedMedia.startTime)
             setEndTime(selectedMedia.endTime)
+            setCurrentTime(selectedMedia.startTime || 0)
         }
     }, [selectedMedia])
 
@@ -42,22 +44,25 @@ export default function LeftPanel({
             intervel = setInterval(() => {
                 setCurrentTime((prevTime) => {
                     const newTime = prevTime + 0.1;
-                    if (newTime >= selectedMedia.endTime) {
-                        setIsPlaying(false);
+                    if (newTime >= endTime) {
+                        setTimeout(() => setIsPlaying(false), 0);
                         return endTime;
                     }
                     return newTime;
                 });
-            })
+            }, 100)
         }
 
         return () => {
-            if (intervel) return clearInterval(intervel)
+            if (intervel) clearInterval(intervel)
         }
-    })
+    }, [isPlaying, selectedMedia, endTime, setIsPlaying])
 
     const handleFileChange = (file: File | null) => {
-        if (file) onMediaSelect(file); setCurrentTime(0)
+        if (file) {
+            onMediaSelect(file)
+            setCurrentTime(0)
+        }
     }
 
     const handleDimensionChange = (dimensions: "Width" | "Height", value: number | string) => {
